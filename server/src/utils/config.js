@@ -1,4 +1,7 @@
 import AWS from "aws-sdk";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 export const AWS_CONFIG = {
   aws_table_item: "item",
@@ -7,8 +10,8 @@ export const AWS_CONFIG = {
     //Provide details for local configuration
   },
   aws_remote_config: {
-    accessKeyId: "AKIAYISK6AYZCQFNGYE4",
-    secretAccessKey: "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",
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
     region: "us-east-1",
   },
 };
