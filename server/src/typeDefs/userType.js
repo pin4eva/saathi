@@ -7,10 +7,14 @@ export default gql`
     email: String
     username: String
     token: String
+    otp: String
+    todos: [Todo]
   }
 
   extend type Query {
     getUsers: [User]
+    verifyToken(otp:String,email:String): User!
+    auth:User
   }
 
   extend type Mutation {

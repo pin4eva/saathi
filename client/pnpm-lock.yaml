@@ -1,18 +1,51 @@
 dependencies:
+  '@apollo/client': 3.3.13_graphql@15.5.0+react@17.0.2
   '@fortawesome/fontawesome-free': 5.15.3
   '@testing-library/jest-dom': 5.11.9
   '@testing-library/react': 11.2.5_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 12.8.3
   bootstrap: 4.6.0
+  graphql: 15.5.0
+  js-cookie: 2.2.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-router-dom: 5.2.0_react@17.0.2
   react-scripts: 4.0.3_react@17.0.2+sass@1.32.8
+  recoil: 0.1.3_react-dom@17.0.2+react@17.0.2
   sass: 1.32.8
   styled-components: 5.2.1_react-dom@17.0.2+react@17.0.2
   web-vitals: 1.1.1
 lockfileVersion: 5.2
 packages:
+  /@apollo/client/3.3.13_graphql@15.5.0+react@17.0.2:
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.0_graphql@15.5.0
+      '@types/zen-observable': 0.8.2
+      '@wry/context': 0.6.0
+      '@wry/equality': 0.4.0
+      fast-json-stable-stringify: 2.1.0
+      graphql: 15.5.0
+      graphql-tag: 2.12.3_graphql@15.5.0
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.15.0
+      prop-types: 15.7.2
+      react: 17.0.2
+      symbol-observable: 2.0.3
+      ts-invariant: 0.7.3
+      tslib: 1.14.1
+      zen-observable: 0.8.15
+    dev: false
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0
+      react: ^16.8.0 || ^17.0.0
+      subscriptions-transport-ws: ^0.9.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      subscriptions-transport-ws:
+        optional: true
+    resolution:
+      integrity: sha512-usiVmXiOq0J/GpyIOIhlF8ItHpiPJObC7zoxLYPoOYj3G3OB0hCIcUKs3aTJ3ATW7u8QxvYgRaJg72NN7E1WOg==
   /@babel/code-frame/7.10.4:
     dependencies:
       '@babel/highlight': 7.13.10
@@ -1383,6 +1416,14 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-rFnSUN/QOtnOAgqFRooTA3H57JLDm0QEG/jPdk+tLQNL/eWd+Aok8g3qCI+Q1xuDPWpGW/i9JySpJVsq8Q0s9w==
+  /@graphql-typed-document-node/core/3.1.0_graphql@15.5.0:
+    dependencies:
+      graphql: 15.5.0
+    dev: false
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
   /@hapi/address/2.1.4:
     deprecated: Moved to 'npm install @sideway/address'
     dev: false
@@ -2100,6 +2141,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kQ5JNTrbDv3Rp5X2n/iUu37IJBDU2gsZ5R/g1/KHOOEc5IKfUFjXT6DENPGduh08I/pamwtEq4oul7gUqKTQDQ==
+  /@types/zen-observable/0.8.2:
+    dev: false
+    resolution:
+      integrity: sha512-HrCIVMLjE1MOozVoD86622S7aunluLb2PJdPfb3nYiEtohm8mIB/vyv0Fd37AdeMFrTUQXEunw78YloMA3Qilg==
   /@typescript-eslint/eslint-plugin/4.19.0_38c429aca078a25bf60ac3ea54ae541b:
     dependencies:
       '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.22.0
@@ -2377,6 +2422,30 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2J0nE95rHXHyQ24cWjMKJ1tqB/ds8z/cyeOZxJhcb+rW+SQASVjuznUSmdz5GpVJTzU8JkhYut0D3siFDD6wsA==
+  /@wry/context/0.6.0:
+    dependencies:
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-sAgendOXR8dM7stJw3FusRxFHF/ZinU0lffsA2YTyyIOfic86JX02qlPqPVqJNZJPAxFt+2EE8bvq6ZlS0Kf+Q==
+  /@wry/equality/0.4.0:
+    dependencies:
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-DxN/uawWfhRbgYE55zVCPOoe+jvsQ4m7PT1Wlxjyb/LCCLuU1UsucV2BbCxFAX8bjcSueFBbB5Qfj1Zfe8e7Fw==
+  /@wry/trie/0.3.0:
+    dependencies:
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-Yw1akIogPhAT6XPYsRHlZZIS0tIGmAl9EYXHi2scf7LPKKqdqmow/Hu4kEqP2cJR3EjaU/9L0ZlAjFf3hFxmug==
   /@xtuc/ieee754/1.2.0:
     dev: false
     resolution:
@@ -5829,6 +5898,23 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
+  /graphql-tag/2.12.3_graphql@15.5.0:
+    dependencies:
+      graphql: 15.5.0
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=10'
+    peerDependencies:
+      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    resolution:
+      integrity: sha512-5wJMjSvj30yzdciEuk9dPuUBUR56AqDi3xncoYQl1i42pGdSqOJrJsdb/rz5BDoy+qoGvQwABcBeF0xXY3TrKw==
+  /graphql/15.5.0:
+    dev: false
+    engines:
+      node: '>= 10.x'
+    resolution:
+      integrity: sha512-OmaM7y0kaK31NKG31q4YbD2beNYa6jBBKtMFT6gLYJljHLJr42IqJ8KX08u3Li/0ifzTU5HjmoOOrwa5BRLeDA==
   /growly/1.3.0:
     dev: false
     optional: true
@@ -7298,6 +7384,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-jxTmrvuecVISvKFFhOkjsWRZV7sFqdSUAd1ajOKY+/QE/aLBVstsJ/dX8GczLzwiT6ZEwwmZqtCUHLHHQVzcfA==
+  /js-cookie/2.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
   /js-tokens/4.0.0:
     dev: false
     resolution:
@@ -8388,6 +8478,13 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-PqHpggC9bLV0VeWcdKhkpxY+3JTzetLSqTCWL/z/tFIbI6G8JCjondXklT1JinczLz2Xib62sSp0T/gKT4KksA==
+  /optimism/0.15.0:
+    dependencies:
+      '@wry/context': 0.6.0
+      '@wry/trie': 0.3.0
+    dev: false
+    resolution:
+      integrity: sha512-KLKl3Kb7hH++s9ewRcBhmfpXgXF0xQ+JZ3xQFuPjnoT6ib2TDmYyVkKENmGxivsN2G3VRxpXuauCkB4GYOhtPw==
   /optimize-css-assets-webpack-plugin/5.0.4_webpack@4.44.2:
     dependencies:
       cssnano: 4.1.10
@@ -10034,6 +10131,22 @@ packages:
       node: '>=8.10.0'
     resolution:
       integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
+  /recoil/0.1.3_react-dom@17.0.2+react@17.0.2:
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+    peerDependencies:
+      react: '>=16.13.1'
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    resolution:
+      integrity: sha512-/Rm7wN7jqCjhtFK1TgtK0V115SUXNu6d4QYvwxWNLydib0QChSmpB6U8CaHoRPS0MFWtAIsD/IFjpbfk/OYm7Q==
   /recursive-readdir/2.2.2:
     dependencies:
       minimatch: 3.0.4
@@ -11284,6 +11397,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw==
+  /symbol-observable/2.0.3:
+    dev: false
+    engines:
+      node: '>=0.10'
+    resolution:
+      integrity: sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==
   /symbol-tree/3.2.4:
     dev: false
     resolution:
@@ -11539,6 +11658,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
+  /ts-invariant/0.7.3:
+    dependencies:
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-UWDDeovyUTIMWj+45g5nhnl+8oo+GhxL5leTaHn5c8FkQWfh8v66gccLd2/YzVmV5hoQUjCEjhrXnQqVDJdvKA==
   /ts-pnp/1.2.0:
     dev: false
     engines:
@@ -12496,16 +12623,24 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+  /zen-observable/0.8.15:
+    dev: false
+    resolution:
+      integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 specifiers:
+  '@apollo/client': ^3.3.13
   '@fortawesome/fontawesome-free': ^5.15.3
   '@testing-library/jest-dom': ^5.11.4
   '@testing-library/react': ^11.1.0
   '@testing-library/user-event': ^12.1.10
   bootstrap: ^4.6.0
+  graphql: ^15.5.0
+  js-cookie: ^2.2.1
   react: ^17.0.2
   react-dom: ^17.0.2
   react-router-dom: ^5.2.0
   react-scripts: 4.0.3
+  recoil: ^0.1.3
   sass: ^1.32.8
   styled-components: ^5.2.1
   web-vitals: ^1.0.1

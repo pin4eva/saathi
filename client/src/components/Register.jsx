@@ -1,7 +1,37 @@
-import React from "react";
+import { useMutation } from "@apollo/client";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { SIGNUP } from "../apollo/queries/UserQuery";
 
 const RegisterComp = ({ setView }) => {
+  const [signup, { loading }] = useMutation(SIGNUP);
+  const [info, setInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInfo({
+      ...info,
+      [name]: value,
+    });
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const { password2, ...rest } = info;
+    if (password2 !== rest.password) return alert("Passwords do not match");
+    try {
+      const { data } = await signup({ variables: { input: rest } });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Wrapper className="">
       <div className="content">
@@ -14,18 +44,42 @@ const RegisterComp = ({ setView }) => {
               SIgn up an account by filling the form bellow.
             </p>
           </div>
-          <form className="mt-3">
+          <form className="mt-3" onSubmit={submit}>
             <div className="form-group">
               <label>Email</label>
-              <input type="email" className="form-control" />
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                className="form-control"
+              />
             </div>
             <div className="form-group">
               <label>Full Name</label>
-              <input type="text" className="form-control" />
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                onChange={handleChange}
+              />
             </div>
             <div className="form-group">
               <label>Password</label>
-              <input type="password" className="form-control" />
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password2"
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form-group ">
