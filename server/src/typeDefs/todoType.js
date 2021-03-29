@@ -6,6 +6,7 @@ export default gql`
     title: String
     body: String
     completed: Boolean
+    userId: ID
   }
 
   extend type Query {

@@ -1,5 +1,10 @@
 import { Fragment } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import DashboardLayout from "./layouts/DashboardLayout";
 import FrontLayout from "./layouts/FrontLayout";
 import AuthPage from "./pages/AuthPage";
@@ -12,29 +17,56 @@ const ErrorLayout = ({ children }) => {
   return <Fragment>{children}</Fragment>;
 };
 
-const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
+const AppRoute = ({
+  component: Component,
+  layout: Layout,
+  isAuth,
+  proctected,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
-      render={(props) => (
-        <Layout>
-          <Component {...props} />
-        </Layout>
-      )}
+      render={(props) => {
+        if (proctected) {
+          if (isAuth) {
+            return (
+              <Layout>
+                <Component {...props} />
+              </Layout>
+            );
+          } else {
+            return <Redirect to="/" />;
+          }
+        } else {
+          return (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          );
+        }
+      }}
     />
   );
 };
 
-const Routes = () => {
+const Routes = ({ isAuth }) => {
   return (
     <Router>
       <Switch>
-        <AppRoute exact path="/" component={HomePage} layout={FrontLayout} />
+        <AppRoute
+          exact
+          path="/"
+          proctected={false}
+          component={HomePage}
+          layout={FrontLayout}
+        />
         <AppRoute
           exact
           path="/auth"
           component={AuthPage}
           layout={FrontLayout}
+          proctected={false}
         />
 
         <AppRoute
@@ -42,6 +74,8 @@ const Routes = () => {
           path="/dashboard"
           component={DHomePage}
           layout={DashboardLayout}
+          proctected={true}
+          isAuth={isAuth}
         />
 
         <AppRoute
@@ -49,9 +83,15 @@ const Routes = () => {
           path="/dashboard/todos"
           component={TodosPage}
           layout={DashboardLayout}
+          proctected={true}
+          isAuth={isAuth}
         />
 
-        <AppRoute component={ErrorPage} layout={ErrorLayout} />
+        <AppRoute
+          component={ErrorPage}
+          layout={ErrorLayout}
+          proctected={false}
+        />
       </Switch>
     </Router>
   );

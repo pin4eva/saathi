@@ -1,5 +1,6 @@
 import { AWS_CONFIG, dynamo } from "../utils/config";
 import { v4 as uuid } from "uuid";
+import { authentication } from "../utils/authentication";
 
 const params = {
   TableName: AWS_CONFIG.aws_table_item,
@@ -18,7 +19,9 @@ export default {
     },
   },
   Mutation: {
-    addTodo: async (_, { title, body }) => {
+    addTodo: async (_, { title, body }, { token }) => {
+      const user = await authentication(token);
+      if(!user) throw new Error("Invalid token provided")
       const params = {
         TableName: AWS_CONFIG.aws_table_item,
         Item: {
@@ -26,6 +29,7 @@ export default {
           title,
           body,
           completed: false,
+          userId: user.id
         },
       };
       const params2 = {

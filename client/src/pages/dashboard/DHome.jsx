@@ -1,11 +1,18 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { TODO_ATOM } from "../../atoms/todoAtom";
+import { USER_ATOM } from "../../atoms/userAtom";
 
 const DHomePage = () => {
+  const user = useRecoilValue(USER_ATOM);
+  const todo = useRecoilValue(TODO_ATOM);
+
   const openModal = () => {
     const overlay = document.querySelector(".th-modal-overlay");
     overlay.classList.add("show");
   };
+
   return (
     <Wrapper className="">
       <p className="my-3 text-primary">Hello, Kenneth</p>

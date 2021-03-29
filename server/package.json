@@ -5,24 +5,29 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -r esm src",
-    "dev": "nodemon -r esm src/index.js"
+    "dev": "nodemon -r esm src/index.js",
+    "micro": "micro -r esm src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.22.1",
     "apollo-server-micro": "^2.22.1",
     "aws-sdk": "^2.873.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1",
     "micro": "^9.3.4",
+    "micro-cors": "^0.1.1",
     "microrouter": "^3.1.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   }
