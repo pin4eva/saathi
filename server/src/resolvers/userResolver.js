@@ -3,7 +3,12 @@ import { sign } from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { authentication } from "../utils/authentication";
 import sgMail from "@sendgrid/mail";
+import { nanoid } from "nanoid";
+import { dynamo } from "../utils/config";
 const TableName = config.AWS_CONFIG.aws_table_user;
+import { config } from "../utils/config";
+
+sgMail.setApiKey(process.env.SENDGRID_API);
 
 ("use strict");
 
@@ -30,32 +35,6 @@ export default {
 
       return user.Item;
     },
-    verifyToken: async (_, { otp, email }) => {
-      try {
-        let user = await dynamo
-          .get({
-            TableName,
-            Key: { email },
-          })
-          .promise();
-
-        if (otp !== user.Item.otp) throw new Error("Invalid token");
-
-        user = await dynamo
-          .update({
-            TableName,
-            Key: { email },
-            UpdateExpression: "set otp = :n1",
-            ExpressionAttributeValues: {
-              ":n1": "",
-            },
-            ReturnValues: "TOTAL",
-          })
-          .promise();
-
-        return user.Item;
-      } catch (error) {}
-    },
   },
   Mutation: {
     signup: async (_, { input }) => {
@@ -63,16 +42,34 @@ export default {
       if (!email || !password) throw new Error("Please provide a valid email");
       const id = uuid();
 
+      let user = await dynamo.get({ TableName, Key: { email } }).promise();
+      if (user.Item) throw new Error("User with same email already exist");
+
       try {
-        let user = await dynamo
+        const info = {
+          id,
+          email,
+          username,
+          name,
+          password: await bcrypt.hash(password, 10),
+          otp: nanoid(5),
+        };
+
+        const mailOptions = {
+          from: "hello.gojeje@gmail.com",
+          to: email,
+          subject: "Please confirm your account",
+          html: `
+          <h2 align="center">Your OTP is ${info.otp} </h2>
+          `,
+        };
+        await sgMail.send(mailOptions).catch((err) => console.log(err));
+
+        await dynamo
           .put({
             TableName,
             Item: {
-              id,
-              email,
-              username,
-              name,
-              password: await bcrypt.hash(password, 10),
+              ...info,
             },
           })
           .promise();
@@ -113,11 +110,125 @@ export default {
         throw new Error(error);
       }
     },
+    verifyToken: async (_, { otp }) => {
+      try {
+        let user = await dynamo
+          .scan({
+            TableName,
+            FilterExpression: "otp = :otp",
+            ExpressionAttributeValues: {
+              ":otp": otp,
+            },
+          })
+          .promise();
+
+        user = user.Items[0];
+
+        if (otp !== user.otp) throw new Error("Invalid token");
+
+        user = await dynamo
+          .update({
+            TableName,
+            Key: { email: user.email },
+            UpdateExpression: "set otp = :n1",
+            ExpressionAttributeValues: {
+              ":n1": "",
+            },
+          })
+          .promise();
+
+        const payload = {
+          id: user.id,
+          timeIn: Date.now(),
+          email: user.email,
+        };
+
+        const token = sign(payload, config.SECRET);
+
+        return {
+          ...user,
+          otp: "",
+          token,
+        };
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    googleLogin: async (_, { googleId }) => {
+      try {
+        let user = await dynamo
+          .scan({
+            TableName,
+            FilterExpression: "googleId = :n1",
+            ExpressionAttributeValues: {
+              ":n1": googleId,
+            },
+          })
+          .promise();
+
+        user = user.Items[0];
+
+        const payload = {
+          id: user.id,
+          timeIn: Date.now(),
+          email: user.email,
+        };
+
+        const token = sign(payload, config.SECRET);
+
+        return {
+          ...user,
+          token,
+        };
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    googleSignup: async (_, { input }) => {
+      const { email } = input;
+
+      const id = uuid();
+      try {
+        let user = await dynamo
+          .get({
+            TableName,
+            Key: { email },
+          })
+          .promise();
+
+        if (user && user.Item && user.Item.email)
+          throw Error("The email address is already registered, Login instead");
+
+        user = await dynamo
+          .put({
+            TableName,
+            Item: {
+              ...input,
+              id,
+            },
+          })
+          .promise();
+
+        const payload = {
+          id: user.id,
+          timeIn: Date.now(),
+          email: input.email,
+        };
+
+        const token = sign(payload, config.SECRET);
+
+        return {
+          ...input,
+          id,
+          token,
+        };
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
     deleteUser: async (_, { email }) => {
       try {
-        const user = await dynamo
-          .delete({ TableName, Key: { email } })
-          .promise();
+        await dynamo.delete({ TableName, Key: { email } }).promise();
 
         return true;
       } catch (error) {

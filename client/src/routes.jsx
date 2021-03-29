@@ -12,6 +12,9 @@ import DHomePage from "./pages/dashboard/DHome";
 import TodosPage from "./pages/dashboard/TodosPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
+import AuthLayout from "./layouts/AuthLayout";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const ErrorLayout = ({ children }) => {
   return <Fragment>{children}</Fragment>;
@@ -66,6 +69,21 @@ const Routes = ({ isAuth }) => {
           path="/auth"
           component={AuthPage}
           layout={FrontLayout}
+          proctected={false}
+        />
+
+        <AppRoute
+          exact
+          path="/login"
+          component={LoginPage}
+          layout={AuthLayout}
+          proctected={false}
+        />
+        <AppRoute
+          exact
+          path="/register"
+          component={RegisterPage}
+          layout={AuthLayout}
           proctected={false}
         />
 

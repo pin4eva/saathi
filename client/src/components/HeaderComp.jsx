@@ -12,12 +12,12 @@ const HeaderComp = () => {
 
         <ul className="nav">
           <li className="nav-item">
-            <NavLink to="/auth" className="btn btn-outline-primary">
+            <NavLink to="/login" className="btn btn-outline-primary">
               Login
             </NavLink>{" "}
           </li>
           <li className="nav-item">
-            <NavLink to="/auth" className="btn btn-primary">
+            <NavLink to="/register" className="btn btn-primary">
               Get Started
             </NavLink>{" "}
           </li>
