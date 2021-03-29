@@ -8,9 +8,12 @@ import jscookie from "js-cookie";
 import { TOKEN_NAME } from "./apollo";
 import { useQuery } from "@apollo/client";
 import { GET_AUTH } from "./apollo/queries/UserQuery";
+import { TODO_ATOM } from "./atoms/todoAtom";
+import { GET_TODOS } from "./apollo/queries/TodoQuery";
 
 const App = () => {
   const [user, setUser] = useRecoilState(USER_ATOM);
+  const [todos, setTodos] = useRecoilState(TODO_ATOM);
   const token = jscookie.get(TOKEN_NAME);
 
   useQuery(GET_AUTH, {
@@ -18,11 +21,15 @@ const App = () => {
       setUser(data.auth);
     },
     onError: (err) => {
-      console.log(err);
+      jscookie.remove(TOKEN_NAME);
     },
   });
 
-  return <Routes isAuth={!user} />;
+  useQuery(GET_TODOS, {
+    onCompleted: (data) => setTodos(data.getTodos),
+    onError: (err) => console.log(err),
+  });
+  return <Routes isAuth={Boolean(user || token)} />;
 };
 
 export default App;

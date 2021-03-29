@@ -6,10 +6,6 @@ export const authentication = async (token) => {
     throw new Error("Unauthorized access");
   }
   const data = verify(token, config.SECRET);
-  if (data) {
-    console.log(data);
-    return data;
-  } else {
-    throw new Error("Invalid token");
-  }
+  if (data) return data;
+  throw new Error("Invalid token");
 };

@@ -31,6 +31,7 @@ const LoginComp = ({ setView }) => {
       const { token, ...rest } = data.login;
       jscookies.set(TOKEN_NAME, token);
       setUser(rest);
+      window.location.href = "/dashboard";
     } catch (error) {
       console.log(error);
     }

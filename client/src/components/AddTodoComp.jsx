@@ -1,7 +1,26 @@
-import React, { useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { ADD_TODO } from "../apollo/queries/TodoQuery";
+import { TODO_ATOM } from "../atoms/todoAtom";
 
 const AddTodoComp = () => {
+  const [todos, setTodos] = useRecoilState(TODO_ATOM);
+  const [addTodo, { loading }] = useMutation(ADD_TODO);
+  const [info, setInfo] = useState({
+    title: "",
+    body: "",
+  });
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setInfo({
+      ...info,
+      [name]: value,
+    });
+  };
+
   const handleClose = () => {
     const overlay = document.querySelector(".th-modal-overlay");
     overlay.classList.remove("show");
@@ -21,6 +40,25 @@ const AddTodoComp = () => {
       }
     });
   }, []);
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    if (!info.title || !info.body) return;
+    try {
+      const { data } = await addTodo({ variables: info });
+      setTodos([...todos, data.addTodo]);
+
+      setInfo({
+        title: "",
+        body: "",
+      });
+
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal className="th-modal-overlay">
       <div className="th-modal">
@@ -32,18 +70,23 @@ const AddTodoComp = () => {
             Please fill out the details below to add new ToDO
           </h5>
 
-          <form>
+          <form onSubmit={handleAdd}>
             <div className="form-group">
               {/* <label>Enter Text</label> */}
               <input
                 type="text"
+                value={info.title}
                 placeholder="Enter Text"
                 className="form-control"
+                name="title"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
               <textarea
-                name=""
+                value={info.body}
+                name="body"
+                onChange={handleChange}
                 className="form-control bg-gray"
                 id=""
                 cols="30"
@@ -53,7 +96,9 @@ const AddTodoComp = () => {
             </div>
 
             <div className="text-center">
-              <button className="btn btn-primary mt-3">Add Todo</button>
+              <button className="btn btn-primary mt-3">
+                {loading ? "Loading..." : "Add Todo"}
+              </button>
             </div>
           </form>
         </div>

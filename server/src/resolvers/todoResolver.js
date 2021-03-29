@@ -5,6 +5,7 @@ import { authentication } from "../utils/authentication";
 const params = {
   TableName: AWS_CONFIG.aws_table_item,
 };
+const TableName = AWS_CONFIG.aws_table_item;
 
 export default {
   Query: {
@@ -17,40 +18,55 @@ export default {
         throw new Error(error);
       }
     },
+    getUserTodos: async (_, args, { token }) => {
+      const user = await authentication(token);
+      if (!user) throw Error("Unauthorized access");
+      try {
+        const todo = await dynamo
+          .query({
+            TableName,
+            KeyConditionExpression: "userId = :n1",
+            // ExpressionAttributeNames: {},
+            ExpressionAttributeValues: {
+              ":n1": user.id,
+            },
+          })
+          .promise();
+        console.log(todo);
+        return todo.Items;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   Mutation: {
     addTodo: async (_, { title, body }, { token }) => {
       const user = await authentication(token);
-      if(!user) throw new Error("Invalid token provided")
-      const params = {
-        TableName: AWS_CONFIG.aws_table_item,
-        Item: {
-          id: uuid(),
+      if (!user) throw new Error("Invalid token provided");
+      const id = uuid();
+
+      try {
+        await dynamo
+          .put({
+            TableName,
+
+            Item: {
+              id,
+              title,
+              body,
+              completed: false,
+              userId: user.id,
+            },
+          })
+          .promise();
+
+        return {
+          id,
+          userId: user.id,
+          completed: false,
           title,
           body,
-          completed: false,
-          userId: user.id
-        },
-      };
-      const params2 = {
-        TableName: AWS_CONFIG.aws_table_item,
-        KeyConditionExpression: "id = :i",
-        ExpressionAttributeValues: {
-          ":i": params.Item.id,
-        },
-      };
-      try {
-        let todo = await dynamo.put(params).promise();
-
-        todo = await dynamo
-          .query(params2)
-          .promise()
-          .catch((err) => {
-            console.log(err);
-            throw Error(err);
-          });
-
-        return todo.Items[0];
+        };
       } catch (error) {
         throw new Error(error);
       }
@@ -77,7 +93,7 @@ export default {
     },
     deleteTodo: async (_, { id }) => {
       try {
-        const todo = await dynamo
+        await dynamo
           .delete({ TableName: AWS_CONFIG.aws_table_item, Key: { id } })
           .promise();
 

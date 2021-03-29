@@ -40,6 +40,4 @@ const DSidebarComp = () => {
 
 export default DSidebarComp;
 
-const Aside = styled.aside`
-  /* background-color: red; */
-`;
+const Aside = styled.aside``;

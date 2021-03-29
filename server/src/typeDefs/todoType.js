@@ -11,6 +11,7 @@ export default gql`
 
   extend type Query {
     getTodos: [Todo]!
+    getUserTodos: [Todo]
   }
   extend type Mutation {
     addTodo(title: String, body: String): Todo!

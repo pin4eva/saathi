@@ -5,7 +5,8 @@
 @import "bootstrap/scss/bootstrap.scss";
 @import "./helpers";
 
-input {
+input[type="text"],
+input[type="search"] {
   all: unset;
 }
 

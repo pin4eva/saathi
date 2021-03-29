@@ -25,15 +25,13 @@
 //   console.log("server started");
 // });
 
-
-
 import { ApolloServer } from "apollo-server-express";
 import http from "http";
 import { schema } from "./typeDefs";
 import express from "express";
-import cors from "cors"
+import cors from "cors";
 
-const app = express()
+const app = express();
 
 // app.use(cors(
 // 	{
@@ -42,30 +40,29 @@ const app = express()
 // }
 // ))
 const server = new ApolloServer({
-	schema,
-	context: async ({ req, res }) => {
-		const { authorization } = req.headers;
+  schema,
+  context: async ({ req, res }) => {
+    const token = req.headers.authorization;
 
-		return {
-			res,
-			req,
-			token: authorization,
-		};
-	},
-	introspection: true,
-	playground: true,
+    return {
+      res,
+      req,
+      token,
+    };
+  },
+  introspection: true,
+  playground: true,
 });
 
 server.applyMiddleware({
-	app,
-	path: "/api/graphql",
-	cors: {
-		origin: ["http://localhost:3000"],
-		credentials: true,
-	},
+  app,
+  path: "/api/graphql",
+  cors: {
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  },
 });
 
 app.listen(8000, () => {
   console.log("server started");
 });
-

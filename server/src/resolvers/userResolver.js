@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { authentication } from "../utils/authentication";
-import { config, dynamo } from "../utils/config";
+import sgMail from "@sendgrid/mail";
 const TableName = config.AWS_CONFIG.aws_table_user;
 
 ("use strict");
@@ -20,47 +20,49 @@ export default {
     },
     auth: async (_, args, { token }) => {
       let authUser = await authentication(token);
-      if (!authUser) return null; 
-      const user = await dynamo.get({
-        TableName,
-        Key:{email:authUser.email}
-      }).promise()
-      
-
-      return user.Item
-    },
-    verifyToken: async (_, { otp,email }) => {
-      try {
-        let user = await dynamo.get({
+      if (!authUser) return null;
+      const user = await dynamo
+        .get({
           TableName,
-          Key:{email}
-        }).promise()
+          Key: { email: authUser.email },
+        })
+        .promise();
+
+      return user.Item;
+    },
+    verifyToken: async (_, { otp, email }) => {
+      try {
+        let user = await dynamo
+          .get({
+            TableName,
+            Key: { email },
+          })
+          .promise();
 
         if (otp !== user.Item.otp) throw new Error("Invalid token");
 
-        user = await dynamo.update({
-          TableName,
-          Key: { email },
-          UpdateExpression: "set otp = :n1",
-          ExpressionAttributeValues: {
-            ":n1":""
-          },
-          ReturnValues: "TOTAL"
+        user = await dynamo
+          .update({
+            TableName,
+            Key: { email },
+            UpdateExpression: "set otp = :n1",
+            ExpressionAttributeValues: {
+              ":n1": "",
+            },
+            ReturnValues: "TOTAL",
+          })
+          .promise();
 
-        }).promise()
-        
         return user.Item;
-      } catch (error) {
-        
-      }
-    }
+      } catch (error) {}
+    },
   },
   Mutation: {
     signup: async (_, { input }) => {
       const { email, password, username, name } = input;
       if (!email || !password) throw new Error("Please provide a valid email");
       const id = uuid();
-      
+
       try {
         let user = await dynamo
           .put({
@@ -72,7 +74,6 @@ export default {
               name,
               password: await bcrypt.hash(password, 10),
             },
-        
           })
           .promise();
 
@@ -99,7 +100,7 @@ export default {
         const payload = {
           id: user.Item.id,
           timeIn: Date.now(),
-          email: user.Item.email
+          email: user.Item.email,
         };
 
         const token = sign(payload, config.SECRET);
