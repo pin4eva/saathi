@@ -10,11 +10,23 @@ import { useQuery } from "@apollo/client";
 import { GET_AUTH } from "./apollo/queries/UserQuery";
 import { TODO_ATOM } from "./atoms/todoAtom";
 import { GET_TODOS } from "./apollo/queries/TodoQuery";
+import { API } from "aws-amplify";
 
 const App = () => {
   const [user, setUser] = useRecoilState(USER_ATOM);
   const [todos, setTodos] = useRecoilState(TODO_ATOM);
   const token = jscookie.get(TOKEN_NAME);
+
+  const callAPi = async () => {
+    try {
+      const data = await API.get("saathi");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  callAPi();
 
   useQuery(GET_AUTH, {
     onCompleted: (data) => {
