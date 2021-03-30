@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-saathi-dev-120749-authRole",
+      "UnauthRoleArn": "arn:aws:iam::568166581810:role/amplify-saathi-dev-120749-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::568166581810:role/amplify-saathi-dev-120749-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-saathi-dev-120749-deployment",
+      "UnauthRoleName": "amplify-saathi-dev-120749-unauthRole",
+      "StackName": "amplify-saathi-dev-120749",
+      "StackId": "arn:aws:cloudformation:us-east-1:568166581810:stack/amplify-saathi-dev-120749/2fc27cc0-9148-11eb-b380-0e2aa313290f",
+      "AmplifyAppId": "dvz1ocued93pd"
+    }
+  }
+}

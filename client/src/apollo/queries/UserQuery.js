@@ -16,6 +16,7 @@ export const LOGIN = gql`
       id
       name
       email
+      otp
     }
   }
 `;

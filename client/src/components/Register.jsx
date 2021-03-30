@@ -71,7 +71,7 @@ const RegisterComp = () => {
   return (
     <Wrapper className="">
       {success ? (
-        <OTPComp name="Peter" />
+        <OTPComp name={name} />
       ) : (
         <div className="wrapper">
           <div className="intro">
@@ -130,24 +130,24 @@ const RegisterComp = () => {
               </div>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-2">
               <button className="btn btn-block text-center btn-primary">
                 {loading ? "Loading..." : "SIGN UP"}
               </button>
             </div>
-            <p className="mt-3  text-center">
+            <p className="mt-2  text-center">
               Already have an account ?
               <NavLink to="/login" className="c-hand">
                 Login
               </NavLink>
             </p>
           </form>
-          <div className="mt-4 text-center">
+          <div className="mt-2 text-center">
             <small>
               Or <br /> Sign in with
             </small>
 
-            <div className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center mt-2">
               {/* <img src="/images/facebook-circle.svg" alt="" className="mx-3" /> */}
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -156,7 +156,7 @@ const RegisterComp = () => {
                     <img
                       src="/images/google-circle.svg"
                       alt=""
-                      className="mx-3"
+                      // className="mx-3"
                     />
                   </button>
                 )}

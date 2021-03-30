@@ -20,7 +20,7 @@ const HomePage = () => {
               </p>
 
               <div className="button">
-                <NavLink to="/auth" className="btn btn-primary">
+                <NavLink to="/register" className="btn btn-primary">
                   Get Started
                 </NavLink>
               </div>

@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-const HeaderComp = () => {
+const HeaderComp = ({ hidden }) => {
   return (
     <Header>
       <nav className="container navbar">
@@ -10,24 +11,34 @@ const HeaderComp = () => {
           <img src="/images/logo.svg" alt="" />
         </NavLink>
 
-        <ul className="nav">
-          <li className="nav-item">
-            <NavLink to="/login" className="btn btn-outline-primary">
-              Login
-            </NavLink>{" "}
-          </li>
-          <li className="nav-item">
-            <NavLink to="/register" className="btn btn-primary">
-              Get Started
-            </NavLink>{" "}
-          </li>
-        </ul>
+        {!hidden && (
+          <ul className="nav">
+            <li className="nav-item">
+              <NavLink to="/login" className="btn btn-outline-primary">
+                Login
+              </NavLink>{" "}
+            </li>
+            <li className="nav-item">
+              <NavLink to="/register" className="btn btn-primary">
+                Get Started
+              </NavLink>{" "}
+            </li>
+          </ul>
+        )}
       </nav>
     </Header>
   );
 };
 
 export default HeaderComp;
+
+HeaderComp.proptype = {
+  hidden: PropTypes.bool,
+};
+
+HeaderComp.defaultProps = {
+  hidden: false,
+};
 
 const Header = styled.header`
   .nav-brand {
